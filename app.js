@@ -3,7 +3,8 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
-// const favicon = require('serve-favicon');
+const favicon = require('serve-favicon');
+const helmet = require('helmet');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -22,6 +23,8 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Helmet to secure App
+app.use(helmet());
 
 /* serves up static files from the public folder.
 Anything in public/ will just be served up as the file it is
@@ -29,7 +32,7 @@ Anything in public/ will just be served up as the file it is
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public/images', 'doughnut.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -76,6 +79,21 @@ app.use((req, res, next) => {
   next();
 });
 
+// SECURITY HELMET SET UP
+app.use(helmet.noCache());
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
+// app.use(helmet.contentSecurityPolicy({
+// directives: {
+// defaultSrc: ["'self'"],
+// styleSrc: ["'self'", 'fonts.googleapis.com']
+// }
+// }));
+const ninetyDaysInSeconds = 7776000;
+app.use(helmet.hpkp({
+  maxAge: ninetyDaysInSeconds,
+  sha256s: ['AbCdEf123=', 'ZyXwVu456='],
+  includeSubdomains: true,
+}));
 // Route Handling
 app.use('/', routes);
 

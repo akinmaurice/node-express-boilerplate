@@ -5,7 +5,9 @@ html
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap-social.css')
     link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="shortcut icon" type="image/png" href="/images/doughnut.png")
     script(src='/javascripts/jquery/jquery.min.js')
     script(src='/javascripts/bootstrap.min.js')
     script(src='/javascripts/bootstrap.bundle.min.js')
@@ -18,17 +20,30 @@ html
           span.navbar-toggler-icon
         .collapse.navbar-collapse(id="navbarCollapse")
           ul.navbar-nav.ml-auto
-            li.nav-item.active
-              a(href="/login").nav-link Login
-                span.sr-only (current)
-            li.nav-item.active
-              a(href="/register").nav-link Register
-                span.sr-only (current)
             if user
-                li.nav-item
-                   a.nav-link(href="/account")= user.email
-                li
-                  a.nav-link(href="/logout") logout
+              li.nav-item
+                a.nav-link(href="/profile")= user.email
+              li
+                a.nav-link(href="/logout") logout
+            else
+              li.nav-item.active
+                a(href="/login").nav-link Login
+                  span.sr-only (current)
+              li.nav-item.active
+                a(href="/register").nav-link Register
+                  span.sr-only (current)
+    .container
+      .row.text-center
+        block messages
+          if locals.flashes
+            .col-lg-12.text-center
+              .flash-messages
+                - const categories = Object.keys(locals.flashes)
+                each category in categories
+                  each message in flashes[category]
+                    .flash(class=`alert alert-${category}` role="alert")
+                      p.flash__text!= message
+                      button.flash__remove(onClick="this.parentElement.remove()") &times;
     .container
       .row.text-center
         block content

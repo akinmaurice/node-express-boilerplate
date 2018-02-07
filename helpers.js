@@ -4,4 +4,4 @@ We need this in our templates to display time
 exports.moment = require('moment');
 
 // App Name
-exports.appName = 'Starter-Pack';
+exports.appName = 'BoilerPlate';

@@ -1,3 +1,4 @@
+const passport = require('passport');
 /*
 Function to get the Login Page
 */
@@ -5,16 +6,22 @@ exports.getLoginPage = (req, res) => {
   res.render('login', { title: 'Login' });
 };
 
+/*
+Login Controller
+*/
+exports.login = passport.authenticate('local', {
+  failureRedirect: '/login',
+  failureFlash: 'Email/Password Invalid!',
+  successRedirect: '/',
+});
 
 /*
 Logout Controller
 */
 exports.logout = (req, res) => {
   req.logout();
-  req.flash('success', 'you are now logged out');
-  res.redirect('/');
+  res.redirect('/login');
 };
-
 
 /*
 Middle ware to restrict page access

@@ -1,4 +1,18 @@
 extends layout
 
+
+include mixins/_loginForm
+
 block content
-  h1 Login Form Here
+  .container
+    .row.text-center
+      .col-lg-12
+        h1 Login
+    .row.text-center
+      .col-lg-12
+        +loginForm()
+
+
+
+
+

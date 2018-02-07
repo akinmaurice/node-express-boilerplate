@@ -38,5 +38,34 @@ router.get(
   userController.getProfilePage,
 );
 
+/*
+Post Login User
+*/
+router.post(
+  '/login',
+  authController.notLoggedIn,
+  authController.login,
+);
+
+/*
+Post Register User
+*/
+router.post(
+  '/register',
+  authController.notLoggedIn,
+  userController.validateRegister,
+  userController.checkUserExists,
+  userController.registerUser,
+  authController.login,
+);
+
+/*
+Logout user.
+*/
+router.get(
+  '/logout',
+  authController.isLoggedIn,
+  authController.logout,
+);
 
 module.exports = router;

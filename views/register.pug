@@ -1,4 +1,12 @@
 extends layout
 
+include mixins/_registerUserForm
+
 block content
-  h1 Register Form Here
+  .container
+    .row.text-center
+      .col-lg-12
+        h1 Create Account
+    .row.text-center
+      .col-lg-12
+        +registerUserForm(body)
