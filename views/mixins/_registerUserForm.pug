@@ -1,6 +1,7 @@
 mixin registerUserForm(body = {})
   form.form-signin(action="/register" method="POST")
     .form-group
+      input(type="hidden" name="_csrf" value=csrftoken)
       input(type="text" name="name" placeholder="Name" value=body.name || '').form-control
     .form-group
       input(type="email" name="email" placeholder="Email Address" value=body.email || '').form-control

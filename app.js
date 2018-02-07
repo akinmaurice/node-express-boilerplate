@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const promisify = require('es6-promisify');
+const csrf = require('csurf');
 const flash = require('connect-flash');
 const expressValidator = require('express-validator');
 const routes = require('./routes/index');
@@ -64,8 +65,13 @@ which will then pass that message to the next page the user requests
 */
 app.use(flash());
 
+
+app.use(csrf());
+
+
 // pass variables to our templates + all requests
 app.use((req, res, next) => {
+  res.locals.csrftoken = req.csrfToken();
   res.locals.h = helpers;
   res.locals.flashes = req.flash();
   res.locals.user = req.user || null;
